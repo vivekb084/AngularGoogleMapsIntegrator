@@ -12,6 +12,10 @@ export class AppComponent implements AfterViewInit {
   lat = 9.9312;
   lng = 76.2673;
   langulage ="ja"
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
+  startDir='chicago, il'
+  endDir='st louis, mo'
 
   markers = [
     {
@@ -96,6 +100,30 @@ export class AppComponent implements AfterViewInit {
     else{
       this.loadAllMarkers2();
     }
+  }
+
+  public calculateAndDisplayRoute() {
+    console.log("Start and end ",this.startDir," ",this.endDir)
+    this.directionsService.route(
+      {
+        origin: {
+          query: this.startDir,
+        },
+        destination: {
+          query: this.endDir,
+        },
+        travelMode: google.maps.TravelMode.TRANSIT,
+      },
+      (response, status:any) => {
+        console.log("Response is ",response)
+        if (status == "OK") {
+          this.directionsRenderer.setDirections(response);
+          this.mapInitializer()
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
   }
 
   loadAllMarkers(): void {
