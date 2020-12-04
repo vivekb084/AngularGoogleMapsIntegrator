@@ -204,4 +204,20 @@ export class AppComponent implements AfterViewInit {
     this.mapInitializer("2");
   }
 
+  public delete_cookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
+  public ChangeLang(value) {
+    this.delete_cookie("language")
+    if(value==1){
+      document.cookie="language=hi_IN"
+    }
+    else{
+      document.cookie="language=ja"
+    }
+    location.reload();
+
+  }
+
 }
